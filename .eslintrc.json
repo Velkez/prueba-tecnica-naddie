@@ -1,0 +1,56 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true,
+        "node": true
+    },
+    "extends": [
+        "eslint:recommended"
+    ],
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    "rules": {
+        // Prevent bugs
+        "no-unused-vars": "warn",
+        "no-undef": "error",
+        "no-console": "off",
+        
+        // Code quality
+        "complexity": ["warn", 10],
+        "max-lines-per-function": ["warn", 60],
+        "max-depth": ["warn", 4],
+        "max-params": ["warn", 4],
+        
+        // Consistency
+        "prefer-const": "error",
+        "no-var": "error",
+        "eqeqeq": ["error", "always"],
+        "curly": ["error", "all"],
+        
+        // Best practices
+        "no-multiple-empty-lines": ["warn", { "max": 2 }],
+        "semi": ["error", "always"],
+        "quotes": ["error", "single", { "avoidEscape": true }],
+        "indent": ["error", 4],
+        
+        // Prevent unnecessary string concatenation
+        "no-useless-concat": "error",
+        
+        // Disallow empty functions
+        "no-empty-function": "warn",
+        
+        // Require arrow functions as callbacks
+        "prefer-arrow-callback": "warn",
+        
+        // Require object literals instead of new Object()
+        "no-new-object": "error",
+        
+        // Disallow Array constructor
+        "no-array-constructor": "error"
+    },
+    "globals": {
+        "THREE": "readonly"
+    }
+}

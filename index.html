@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Experiencia interactiva 3D con Three.js - Rotación, texturas e iluminación">
+    <meta name="theme-color" content="#007bff">
+    <title>NADDIE - 3D Viewer</title>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <div id="app">
+        <header id="app-header">
+            <h1 class="logo">NADDIE</h1>
+        </header>
+        
+        <canvas id="3d-viewer" role="img" aria-label="Visualizador 3D interactivo"></canvas>
+        
+        <div id="dock-panel" class="minimized">
+            <nav class="dock-tabs" role="tablist">
+                <button class="tab-btn" data-tab="textures" role="tab" aria-selected="false">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                        <path d="M21 15l-5-5L5 21"/>
+                    </svg>
+                    <span>Texturas</span>
+                </button>
+                <button class="tab-btn" data-tab="lighting" role="tab" aria-selected="false">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"/>
+                        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                    </svg>
+                    <span>Iluminación</span>
+                </button>
+                <button class="tab-btn" data-tab="background" role="tab" aria-selected="false">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="3" width="20" height="14" rx="2"/>
+                        <path d="M8 21h8M12 17v4"/>
+                    </svg>
+                    <span>Fondo</span>
+                </button>
+                <button class="tab-btn" data-tab="model" role="tab" aria-selected="false">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                        <path d="M2 17l10 5 10-5"/>
+                        <path d="M2 12l10 5 10-5"/>
+                    </svg>
+                    <span>Modelo</span>
+                </button>
+            </nav>
+
+            <div class="dock-content">
+                <div class="tab-panel" id="panel-textures" role="tabpanel">
+                    <!-- Tipos de Textura -->
+                    <div class="texture-type-selector">
+                        <label class="section-label">Tipo de textura</label>
+                        <div class="texture-type-buttons">
+                            <button class="texture-type-btn" data-texture-type="solid" aria-label="Textura sólida">
+                                <span>Sólido</span>
+                            </button>
+                            <button class="texture-type-btn" data-texture-type="metal" aria-label="Textura metálica">
+                                <span>Metálico</span>
+                            </button>
+                            <button class="texture-type-btn active" data-texture-type="original" aria-label="Textura normal">
+                                <span>Normal</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Controles para Sólido -->
+                    <div class="texture-controls" id="solid-controls">
+                        <div class="color-picker-control">
+                            <label for="solid-color">Color base</label>
+                            <input type="color" id="solid-color" value="#007bff">
+                        </div>
+                        <div class="slider-control">
+                            <label for="roughness-slider">Rugosidad</label>
+                            <input type="range" id="roughness-slider" min="0" max="1" step="0.1" value="0.5">
+                            <span class="slider-value">0.5</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Controles para Metálico -->
+                    <div class="texture-controls" id="metal-controls" style="display: none;">
+                        <div class="metal-color-selector">
+                            <label class="section-label">Color de metal</label>
+                            <div class="metal-color-buttons">
+                                <button class="metal-color-btn active" data-metal-color="copper" style="background: linear-gradient(135deg, #b87333 0%, #cd7f32 100%)" aria-label="Cobre">
+                                    <span class="swatch-label">Cobre</span>
+                                </button>
+                                <button class="metal-color-btn" data-metal-color="silver" style="background: linear-gradient(135deg, #c0c0c0 0%, #e8e8e8 100%)" aria-label="Plata">
+                                    <span class="swatch-label">Plata</span>
+                                </button>
+                                <button class="metal-color-btn" data-metal-color="gold" style="background: linear-gradient(135deg, #ffd700 0%, #ffec8b 100%)" aria-label="Oro">
+                                    <span class="swatch-label">Oro</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="slider-control">
+                            <label for="metalness-slider">Brillo del metal</label>
+                            <input type="range" id="metalness-slider" min="0" max="1" step="0.1" value="0.8">
+                            <span class="slider-value">0.8</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Controles para Original -->
+                    <div class="texture-controls" id="original-controls" style="display: none;">
+                        <p class="texture-info">Restaurará las texturas originales del modelo 3D</p>
+                    </div>
+                </div>
+
+                <div class="tab-panel" id="panel-lighting" role="tabpanel" hidden>
+                    <!-- Selector de tipo de luz -->
+                    <div class="light-type-selector">
+                        <label class="section-label">Tipo de luz</label>
+                        <div class="light-type-buttons">
+                            <button class="light-type-btn active" data-light-type="ambient" aria-label="Luz ambiental">
+                                <span class="light-type-icon">☁</span>
+                                <span>Ambient</span>
+                            </button>
+                            <button class="light-type-btn" data-light-type="main" aria-label="Luz principal">
+                                <span class="light-type-icon">☀</span>
+                                <span>Main</span>
+                            </button>
+                            <button class="light-type-btn" data-light-type="fill" aria-label="Luz de relleno">
+                                <span class="light-type-icon">◐</span>
+                                <span>Fill</span>
+                            </button>
+                            <button class="light-type-btn" data-light-type="back" aria-label="Luz de contorno">
+                                <span class="light-type-icon">◑</span>
+                                <span>Back</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Controles de posición (solo para luces direccionales) -->
+                    <div class="position-controls" id="position-controls" style="display: none;">
+                        <label class="section-label">Posición</label>
+                        <div class="slider-control">
+                            <label for="light-pos-x">X</label>
+                            <input type="range" id="light-pos-x" min="-10" max="10" step="0.5" value="3">
+                            <span class="slider-value">3</span>
+                        </div>
+                        <div class="slider-control">
+                            <label for="light-pos-y">Y</label>
+                            <input type="range" id="light-pos-y" min="-10" max="10" step="0.5" value="5">
+                            <span class="slider-value">5</span>
+                        </div>
+                        <div class="slider-control">
+                            <label for="light-pos-z">Z</label>
+                            <input type="range" id="light-pos-z" min="-10" max="10" step="0.5" value="5">
+                            <span class="slider-value">5</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Presets de color -->
+                    <div class="swatch-grid">
+                        <button class="swatch active" data-lighting="warm" style="background: linear-gradient(135deg, #ff9500 0%, #ff3b30 100%)" aria-label="Cálida">
+                            <span class="swatch-label">Cálida</span>
+                        </button>
+                        <button class="swatch" data-lighting="cool" style="background: linear-gradient(135deg, #5ac8fa 0%, #007aff 100%)" aria-label="Fría">
+                            <span class="swatch-label">Fría</span>
+                        </button>
+                        <button class="swatch swatch-light" data-lighting="neutral" style="background: linear-gradient(135deg, #f5f7fa 0%, #e5e5ea 100%)" aria-label="Neutral">
+                            <span class="swatch-label">Neutral</span>
+                        </button>
+                        <button class="swatch" data-lighting="dramatic" style="background: linear-gradient(135deg, #1d1d1f 0%, #3a3a3c 100%)" aria-label="Dramático">
+                            <span class="swatch-label">Dramático</span>
+                        </button>
+                    </div>
+                    
+                    <!-- Color picker -->
+                    <div class="color-picker-control">
+                        <label for="lighting-color">Color</label>
+                        <input type="color" id="lighting-color" value="#ffffff">
+                    </div>
+                    
+                    <!-- Intensidad -->
+                    <div class="slider-control">
+                        <label for="lighting-intensity">Intensidad</label>
+                        <input type="range" id="lighting-intensity" min="0" max="3" step="0.1" value="0.5">
+                        <span class="slider-value">0.5</span>
+                    </div>
+                    
+                    <!-- Botón reset -->
+                    <button class="btn-reset-light" id="reset-light-btn" aria-label="Restablecer luz">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                            <path d="M3 3v5h5"/>
+                        </svg>
+                        Restablecer luz
+                    </button>
+                </div>
+
+                <div class="tab-panel" id="panel-background" role="tabpanel" hidden>
+                    <div class="swatch-grid">
+                        <button class="swatch active swatch-light" data-bg="default" style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)" aria-label="Gris claro">
+                            <span class="swatch-label">Gris</span>
+                        </button>
+                        <button class="swatch" data-bg="dark" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)" aria-label="Oscuro">
+                            <span class="swatch-label">Oscuro</span>
+                        </button>
+                        <button class="swatch" data-bg="blue" style="background: linear-gradient(135deg, #007aff 0%, #5ac8fa 100%)" aria-label="Azul">
+                            <span class="swatch-label">Azul</span>
+                        </button>
+                        <button class="swatch" data-bg="gradient" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%)" aria-label="Degradado">
+                            <span class="swatch-label">Degradado</span>
+                        </button>
+                    </div>
+                    <div class="slider-control">
+                        <label for="bg-opacity">Opacidad entorno</label>
+                        <input type="range" id="bg-opacity" min="0" max="1" step="0.1" value="1">
+                        <span class="slider-value">1.0</span>
+                    </div>
+                </div>
+
+                <div class="tab-panel" id="panel-model" role="tabpanel" hidden>
+                    <div class="geometry-buttons">
+                        <button class="geometry-btn active" data-geometry="torus" aria-label="Toro">
+                            <span class="geometry-icon">◎</span>
+                            <span>Toro</span>
+                        </button>
+                        <button class="geometry-btn" data-geometry="box" aria-label="Cubo">
+                            <span class="geometry-icon">◼</span>
+                            <span>Cubo</span>
+                        </button>
+                        <button class="geometry-btn" data-geometry="sphere" aria-label="Esfera">
+                            <span class="geometry-icon">●</span>
+                            <span>Esfera</span>
+                        </button>
+                        <button class="geometry-btn" data-geometry="torusKnot" aria-label="Torus Knot">
+                            <span class="geometry-icon">∞</span>
+                            <span>Torus Knot</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="welcome-modal" class="hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">¡Bienvenido a NADDIE 3D!</h2>
+                    <button id="modal-close" class="btn-icon" aria-label="Cerrar">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"/>
+                            <line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <!-- Slide 1: Rotación -->
+                    <div class="slide active" data-slide="0">
+                        <div class="slide-text">
+                            <h3>🖱️ Rotación</h3>
+                            <p>Haz clic y arrastra sobre el modelo 3D para rotarlo en cualquier dirección. Usa la rueda del ratón para hacer zoom.</p>
+                        </div>
+                    </div>
+
+                    <!-- Slide 2: Texturas -->
+                    <div class="slide" data-slide="1">
+                        <div class="slide-text">
+                            <h3>🎨 Texturas</h3>
+                            <p>Explora diferentes materiales en la pestaña "Texturas". Puedes elegir entre Metal, Madera, Tela y más.</p>
+                        </div>
+                    </div>
+
+                    <!-- Slide 3: Iluminación -->
+                    <div class="slide" data-slide="2">
+                        <div class="slide-text">
+                            <h3>💡 Iluminación</h3>
+                            <p>Personaliza la atmósfera con diferentes configuraciones de luz: Cálida, Fría, Neutral o Dramática.</p>
+                        </div>
+                    </div>
+
+                    <!-- Slide 4: Fondo -->
+                    <div class="slide" data-slide="3">
+                        <div class="slide-text">
+                            <h3>🖼️ Fondo</h3>
+                            <p>Cambia el fondo del escenario: Gris, Oscuro, Azul o hermosos degradados. ¡Elige tu favorito!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button id="modal-prev" class="btn-secondary" aria-label="Anterior">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="15 18 9 12 15 6"/>
+                        </svg>
+                        Anterior
+                    </button>
+                    <div class="slide-dots">
+                        <span class="slide-dot active" data-index="0"></span>
+                        <span class="slide-dot" data-index="1"></span>
+                        <span class="slide-dot" data-index="2"></span>
+                        <span class="slide-dot" data-index="3"></span>
+                    </div>
+                    <button id="modal-next" class="btn-primary" aria-label="Siguiente">
+                        Siguiente
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="9 18 15 12 9 6"/>
+                        </svg>
+                    </button>
+                    <button id="modal-start" class="btn-primary" hidden aria-label="Comenzar">
+                        ¡Comenzar!
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
+    <script type="module" src="scripts/main.js"></script>
+</body>
+</html>

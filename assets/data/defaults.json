@@ -1,0 +1,145 @@
+{
+    "scene": {
+        "rotation": {
+            "x": 0,
+            "y": 2,
+            "z": 0
+        },
+        "texture": "original",
+        "lighting": {
+            "intensity": 1,
+            "color": "#ffffff",
+            "preset": "warm"
+        },
+        "background": "default",
+        "cubeColor": "#007bff"
+    },
+    "interaction": {
+        "mode": "idle"
+    },
+    "ui": {
+        "modal": {
+            "isOpen": true,
+            "currentSlide": 0
+        },
+        "activePanel": null
+    },
+    "resources": {
+        "textures": {
+            "default": null,
+            "metal": "/assets/textures/metal.jpg",
+            "wood": "/assets/textures/wood.jpg",
+            "fabric": "/assets/textures/fabric.jpg"
+        },
+        "backgrounds": {
+            "default": "#f5f5f7",
+            "dark": "#1d1d1f",
+            "blue": "#007aff",
+            "gradient": "gradient"
+        },
+        "lighting": {
+            "warm": "#ff9500",
+            "cool": "#5ac8fa",
+            "neutral": "#ffffff",
+            "dramatic": "#3a3a3c"
+        }
+    },
+    "viewer": {
+        "camera": {
+            "fov": 45,
+            "near": 0.1,
+            "far": 1000,
+            "position": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        },
+        "model": {
+            "type": "torus",
+            "geometryType": "torusKnot",
+            "path": "/assets/models/",
+            "filename": "",
+            "autoLoad": false,
+            "scale": 1,
+            "castShadows": true,
+            "receiveShadows": true
+        },
+        "geometry": {
+            "torus": {
+                "radius": 1,
+                "tube": 0.4,
+                "radialSegments": 16,
+                "tubularSegments": 100,
+                "arc": 6.28
+            },
+            "torusKnot": {
+                "radius": 1,
+                "tube": 0.3,
+                "radialSegments": 64,
+                "tubularSegments": 8,
+                "p": 2,
+                "q": 3
+            },
+            "box": {
+                "size": 1.5
+            },
+            "sphere": {
+                "radius": 1,
+                "widthSegments": 32,
+                "heightSegments": 16
+            }
+        },
+        "material": {
+            "color": "#007bff",
+            "shininess": 100,
+            "specular": "#444444"
+        },
+        "lighting": {
+            "ambient": {
+                "color": "#ffffff",
+                "intensity": 0.3
+            },
+            "main": {
+                "color": "#ffffff",
+                "intensity": 1.2,
+                "position": {
+                    "x": 3,
+                    "y": 5,
+                    "z": 5
+                }
+            },
+            "fill": {
+                "color": "#ffffff",
+                "intensity": 0.3,
+                "position": {
+                    "x": -5,
+                    "y": 5,
+                    "z": -5
+                }
+            },
+            "back": {
+                "color": "#ffffff",
+                "intensity": 0.2,
+                "position": {
+                    "x": 0,
+                    "y": -5,
+                    "z": -5
+                }
+            }
+        },
+        "background": {
+            "color": "#f0f0f0"
+        },
+        "controls": {
+            "minDistance": 1.5,
+            "maxDistance": 6,
+            "dampingFactor": 0.05,
+            "enablePan": false,
+            "enableZoom": true
+        },
+        "resetAnimation": {
+            "duration": 500
+        }
+    }
+}
