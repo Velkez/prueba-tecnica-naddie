@@ -356,19 +356,7 @@ Se optó por posicionar el panel de control en la parte inferior de la pantalla 
 - **Espacios laterales**: El dock no ocupa todo el ancho de la pantalla, dejando márgenes a los lados que mejoran la sensación de flotabilidad y permiten ver más del objeto 3D.
 - **Diseño limpio**: Al estar separado del borde de la pantalla, el dock parece levitar, creando una jerarquía visual donde el objeto 3D es el protagonista absoluto.
 
-La implementación se encuentra en `styles/layout/menu-container.css`:
-
-```css
-#dock-panel {
-    position: fixed;
-    bottom: 12px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: calc(100% - 80px);
-    max-width: 600px;
-    border-radius: 24px;
-}
-```
+La implementación se encuentra en `styles/main.css` en el id `#dock-panel`:
 
 ### Glassmorphism (Efecto Vidrio)
 
@@ -398,16 +386,3 @@ El panel de control se organiza mediante un sistema de pestañas (Texturas, Ilum
 Cada pestaña contiene:
 - **Swatches visuales**: Botones circulares o redondeados que muestran una previsualización del color/textura a seleccionar.
 - **Sliders de control**: Barras de rango horizontales para ajustes finos de propiedades cuantitativas.
-
-### Rotación Automática del Objeto 3D
-
-El objeto 3D cuenta con rotación automática sobre su eje vertical cuando no hay interacción activa, por las siguientes razones:
-
-- **Presentación dinámica**: El objeto siempre está en movimiento, lo que llama la atención del usuario y muestra diferentes ángulos sin necesidad de interacción.
-- **feedback visual inmediato**: Al iniciar una interacción (arrastre), la rotación se detiene permitiendo al usuario examinar el objeto desde cualquier ángulo.
-- **Retorno automático**: Cuando el usuario deja de interactuar, la rotación vuelve a activarse después de un breve período, manteniendo la experiencia viva.
-
-La implementación detecta el modo de interacción mediante `appState.interaction.mode`:
-- `idle`: Rotación automática activa
-- `draggingRotation`: Rotación manual del usuario
-- `adjustingSlider` / `processingClick`: Otras interacciones
