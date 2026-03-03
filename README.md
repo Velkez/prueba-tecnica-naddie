@@ -12,7 +12,7 @@ Aclarar que esto será implementado una vez el objetivo principal descrito en el
 
 ## Boceto de experiencia 3D
 
-![[Boceto de experiencia 3D]]
+<img width="1516" height="735" alt="image" src="https://github.com/user-attachments/assets/2ac78647-6ec9-487c-a274-703e8f9f25aa" />
 
 ---
 ## Arquitectura del proyecto:
