@@ -27,36 +27,20 @@ El proyecto será desarrollado netamente en tecnologías vanilla, como HTML, CSS
 
 ### Árbol de ficheros
 
+```
 index.html
 styles/
-├── base/
-│   ├── reset.css
-│   └── variable.css
-├── layout/
-│   ├── 3D-viewer.css              <-- El canvas de ThreeJS
-│   └── menu-container.css     <-- Posicionamiento de UI flotante
-├── components/
-│   ├── menu-ui.css                 <-- El contenedor blanco con blur
-│   ├── controls.css                  <-- Range bars y select-buttons
-│   ├── buttons.css                  <-- Botón restauración y navegación
-│   └── welcome-modal.css     <-- Todo lo del modal (video, texto, puntos)
-└── main.css                            <-- Orquestador CSS
+└── main.css                   <-- Contenedor de estilos
 scripts/
 ├── modules/
-│   ├── viewer.js                       <-- Toda la configuración de Three.js (Escena, Cámara, Render)
-│   ├── ui-controls.js                <-- Lógica de botones, range bars y cambios de texturas
-│   └── modal.js                       <-- Lógica del tutorial (abrir, cerrar, cambiar slides)
-├── utils/
-│   └── helpers.js                     <-- Funciones matemáticas o de carga de archivos
-└── main.js                             <-- Orquestador JS
+│   ├── viewer.js              <-- Toda la configuración de Three.js (Escena, Cámara, Render)
+│   ├── ui-controls.js         <-- Lógica de botones, range bars y cambios de texturas
+│   └── modal.js               <-- Lógica del tutorial (abrir, cerrar, cambiar slides)
+└── main.js                    <-- Orquestador JS
 assets/
-├── data/                                <-- Se guardan los json 
-├── models/                           <-- Aquí guardas tu 'modelo.glb' o 'escena.gltf'
-├── textures/                          <-- Mapas de color, rugosidad, normales, etc.
-├── enviroments/                   <-- Fondos HDRI para el entorno 3D
-├── icons/                              <-- Los iconos de los botones (restablecer, cerrar)
-└── video/                              <-- Los videos explicativo del tutorial
-
+├── data/                      <-- Se guardan los json 
+└── models/                    <-- Aquí guardas tu 'modelo.glb' o 'escena.gltf'
+```
 ---
 ## ¿Cómo va a funcionar?
 
