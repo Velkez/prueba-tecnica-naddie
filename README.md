@@ -6,6 +6,7 @@ parte se nos permite añadir mas funcionalidades de preferencia. Por lo tanto te
 - Botón para restablecer configuraciones de iluminación
 - Botón para restablecer rotación del objeto 3D
 - Modal tutorial de como usar esta experiencia
+
 Aclarar que esto será implementado una vez el objetivo principal descrito en el primer párrafo es cumplido.
 
 ---
